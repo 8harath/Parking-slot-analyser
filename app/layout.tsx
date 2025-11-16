@@ -1,14 +1,11 @@
 import type React from "react"
 import "@/app/globals.css"
-import { Inter } from "next/font/google"
 import { ThemeProvider } from "@/components/theme-provider"
-
-const inter = Inter({ subsets: ["latin"] })
 
 export const metadata = {
   title: "Parking Slot Analyzer",
   description: "Analyze parking lot images to detect and track parking slot occupancy",
-    generator: 'v0.dev'
+  generator: 'v0.dev'
 }
 
 export default function RootLayout({
@@ -18,7 +15,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body>
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
           {children}
         </ThemeProvider>

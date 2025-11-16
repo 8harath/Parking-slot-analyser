@@ -2,10 +2,21 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 
+/**
+ * Home Page Component
+ *
+ * Landing page for the Parking Slot Analyzer application.
+ * Features a retro 1980s computer terminal aesthetic with:
+ * - System overview and status
+ * - Upload interface (UI only, not yet functional)
+ * - Navigation to analysis page
+ * - Feature descriptions and system requirements
+ */
 export default function Home() {
   return (
     <div className="min-h-screen bg-amber-50 text-amber-900 font-mono">
       <div className="container mx-auto px-4 py-8">
+        {/* Application header with retro styling */}
         <header className="mb-8 text-center">
           <h1 className="text-4xl font-bold mb-2 border-b-4 border-amber-800 inline-block pb-2">
             PARKING SLOT ANALYZER
