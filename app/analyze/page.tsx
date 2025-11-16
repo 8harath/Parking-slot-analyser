@@ -10,27 +10,51 @@ import { Progress } from "@/components/ui/progress"
 import { Loader2, ArrowLeft, Download, Eye } from "lucide-react"
 import { ParkingAnalyzer } from "@/components/parking-analyzer"
 
+/**
+ * Analysis Page Component
+ *
+ * This page provides the main interface for parking slot analysis.
+ * It displays the original image, processed results, and debug visualizations
+ * in a tabbed interface with retro 1980s computer terminal styling.
+ *
+ * Current Implementation: Uses simulated processing with mock data.
+ * Future: Will integrate with actual Python backend for real image analysis.
+ */
 export default function AnalyzePage() {
+  // State management for processing flow
   const [isProcessing, setIsProcessing] = useState(false)
   const [progress, setProgress] = useState(0)
   const [isComplete, setIsComplete] = useState(false)
   const [activeTab, setActiveTab] = useState("original")
   const [stats, setStats] = useState({ total: 0, occupied: 0, available: 0 })
 
+  // Demo images - replace with uploaded images in future implementation
   const demoImage = "/carParkImg.png"
   const resultImage = "/result.png"
 
-  // Simulate processing
+  /**
+   * Simulates the parking slot analysis process
+   *
+   * This effect increments progress by 5% every 200ms to simulate
+   * real processing steps. In production, this would call the actual
+   * API endpoint and show real progress updates.
+   */
   useEffect(() => {
     if (isProcessing) {
       const interval = setInterval(() => {
         setProgress((prev) => {
           const newProgress = prev + 5
+
+          // When progress reaches 100%, complete the processing
           if (newProgress >= 100) {
             clearInterval(interval)
+
+            // Small delay before showing final results
             setTimeout(() => {
               setIsProcessing(false)
               setIsComplete(true)
+
+              // Mock statistics - replace with actual API response
               setStats({
                 total: 187,
                 occupied: 142,
@@ -41,12 +65,22 @@ export default function AnalyzePage() {
           }
           return newProgress
         })
-      }, 200)
+      }, 200) // Update progress every 200ms
 
+      // Cleanup interval on unmount
       return () => clearInterval(interval)
     }
   }, [isProcessing])
 
+  /**
+   * Initiates the parking slot analysis process
+   *
+   * In production, this would:
+   * 1. Validate the uploaded image
+   * 2. Call the /api/analyze endpoint
+   * 3. Update progress based on real processing status
+   * 4. Display actual results from the backend
+   */
   const startProcessing = () => {
     setIsProcessing(true)
     setProgress(0)
@@ -160,9 +194,12 @@ export default function AnalyzePage() {
                       <div className="flex items-center justify-center mb-4">
                         <Loader2 className="h-8 w-8 animate-spin text-amber-800" />
                       </div>
-                      <Progress value={progress} className="h-4 bg-amber-200 border border-amber-800">
-                        <div className="h-full bg-amber-800" style={{ width: `${progress}%` }}></div>
-                      </Progress>
+                      <div className="w-full h-4 bg-amber-200 border border-amber-800 rounded overflow-hidden">
+                        <div
+                          className="h-full bg-amber-800 transition-all duration-200"
+                          style={{ width: `${progress}%` }}
+                        />
+                      </div>
                       <p className="text-center font-bold">{progress}% COMPLETE</p>
                       <div className="border border-amber-800 bg-amber-50 p-2 text-xs h-24 overflow-auto">
                         {progress >= 10 && <p>Loading image...</p>}

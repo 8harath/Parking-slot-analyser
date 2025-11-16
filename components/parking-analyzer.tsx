@@ -2,9 +2,27 @@
 
 import { useEffect, useRef } from "react"
 
+/**
+ * Parking Analyzer Debug Visualization Component
+ *
+ * Renders a canvas-based debug view showing the step-by-step
+ * computer vision pipeline for parking slot detection.
+ *
+ * Visualizes:
+ * 1. Image preprocessing (grayscale → binary threshold)
+ * 2. Yellow zone masking (HSV conversion)
+ * 3. Slot detection (contour finding → filtering)
+ * 4. Occupancy classification (YOLO detection → IoU calculation)
+ *
+ * This is a static visualization for demonstration purposes.
+ * In production, this could show actual intermediate processing results.
+ */
 export function ParkingAnalyzer() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
 
+  /**
+   * Initialize the canvas and draw the debug visualization
+   */
   useEffect(() => {
     const canvas = canvasRef.current
     if (!canvas) return
@@ -12,28 +30,36 @@ export function ParkingAnalyzer() {
     const ctx = canvas.getContext("2d")
     if (!ctx) return
 
-    // Set canvas dimensions
+    // Set canvas dimensions for desktop viewing
     canvas.width = 800
     canvas.height = 600
 
-    // Draw the debug visualization
+    // Draw the complete debug visualization
     drawDebugView(ctx)
   }, [])
 
+  /**
+   * Main debug view renderer
+   * Draws the complete processing pipeline visualization
+   */
   const drawDebugView = (ctx: CanvasRenderingContext2D) => {
-    // Background
+    // Light beige background
     ctx.fillStyle = "#f5f5dc"
     ctx.fillRect(0, 0, 800, 600)
 
-    // Draw grid lines
+    // Draw grid lines for technical aesthetic
     ctx.strokeStyle = "#888"
     ctx.lineWidth = 0.5
+
+    // Vertical grid lines
     for (let i = 0; i < 800; i += 50) {
       ctx.beginPath()
       ctx.moveTo(i, 0)
       ctx.lineTo(i, 600)
       ctx.stroke()
     }
+
+    // Horizontal grid lines
     for (let i = 0; i < 600; i += 50) {
       ctx.beginPath()
       ctx.moveTo(0, i)
@@ -46,12 +72,16 @@ export function ParkingAnalyzer() {
     ctx.font = "16px monospace"
     ctx.fillText("PARKING SLOT DETECTION - DEBUG VIEW", 20, 30)
 
-    // Draw the processing steps
+    // Draw all processing steps
     drawPreprocessingSteps(ctx)
     drawSlotDetectionSteps(ctx)
     drawOccupancyClassification(ctx)
   }
 
+  /**
+   * Step 1: Image Preprocessing Visualization
+   * Shows the conversion from original → grayscale → binary threshold
+   */
   const drawPreprocessingSteps = (ctx: CanvasRenderingContext2D) => {
     // Section title
     ctx.fillStyle = "#8B4513"
@@ -174,6 +204,10 @@ export function ParkingAnalyzer() {
     ctx.fillText("YELLOW MASK", 215, 250)
   }
 
+  /**
+   * Step 2: Slot Detection Visualization
+   * Shows contour finding and filtering process
+   */
   const drawSlotDetectionSteps = (ctx: CanvasRenderingContext2D) => {
     // Section title
     ctx.fillStyle = "#8B4513"
@@ -252,6 +286,10 @@ export function ParkingAnalyzer() {
     ctx.fillText("YELLOW_ZONE_EXCLUSION = TRUE", 350, 425)
   }
 
+  /**
+   * Step 3: Occupancy Classification Visualization
+   * Shows YOLO vehicle detection and IoU calculation
+   */
   const drawOccupancyClassification = (ctx: CanvasRenderingContext2D) => {
     // Section title
     ctx.fillStyle = "#8B4513"
